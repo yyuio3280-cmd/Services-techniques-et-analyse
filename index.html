@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>لوحة متابعة الموقع</title>
+<style>
+:root{color-scheme:dark;--bg:#0b1118;--glass:rgba(255,255,255,.09);--bd:rgba(186,230,253,.24);--tx:#eef6fb;--mu:#9fb0bf;--pu:#38bdf8;--pu2:#0284c7;--ok:#22c55e;--bad:#ef4444}
+*{box-sizing:border-box;margin:0}
+[hidden]{display:none!important}
+body{background:radial-gradient(circle at 15% 10%,#38bdf855 0,transparent 45%),radial-gradient(circle at 90% 60%,#94a3b844 0,transparent 50%),var(--bg);background-attachment:fixed;color:var(--tx);font-family:-apple-system,"Segoe UI",Tahoma,sans-serif;min-height:100vh}
+.ic{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+header{position:fixed;top:0;left:0;right:0;z-index:20;height:calc(54px + env(safe-area-inset-top,0px));padding-top:env(safe-area-inset-top,0px);display:flex;align-items:center;justify-content:center;background:rgba(17,24,34,.55);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--bd)}
+header h1{font-size:15px;max-width:calc(100% - 200px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#hs{position:absolute;right:12px;display:flex;gap:10px;font-size:12px;font-weight:600;direction:ltr;align-items:center;top:calc(env(safe-area-inset-top,0px) + 18px)}
+#hs span{display:flex;align-items:center;gap:5px}
+.dot{width:10px;height:10px;border-radius:50%;display:inline-block}
+.dot.b{background:#38bdf8;box-shadow:0 0 8px #38bdf8}.dot.g{background:#22c55e;box-shadow:0 0 8px #22c55e;animation:pl 1.6s infinite}
+@keyframes pl{50%{opacity:.35}}
+#rf{position:absolute;left:12px;top:calc(env(safe-area-inset-top,0px) + 9px);width:38px;height:36px;border-radius:12px;border:1px solid var(--bd);background:var(--glass);color:#bae6fd;display:flex;align-items:center;justify-content:center;cursor:pointer}
+#rf.spin .ic{animation:sp .8s linear infinite}@keyframes sp{to{transform:rotate(360deg)}}
+main{padding:calc(70px + env(safe-area-inset-top,0px)) 14px calc(100px + env(safe-area-inset-bottom,0px));max-width:720px;margin:auto}
+.card{background:var(--glass);border:1px solid var(--bd);border-radius:22px;padding:16px;margin-bottom:14px;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);box-shadow:0 8px 30px #0006}
+h3{font-size:14px;display:flex;align-items:center;gap:8px;margin-bottom:10px;color:#bae6fd}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.kp{background:var(--glass);border:1px solid var(--bd);border-radius:18px;padding:14px;display:flex;flex-direction:column;gap:4px}
+.kp .ic{color:var(--pu)}.kp b{font-size:26px}.kp span{font-size:12px;color:var(--mu)}
+.ch{direction:ltr}.ch svg{width:100%;display:block}.ch line{stroke:rgba(255,255,255,.08)}.ch text{fill:var(--mu);font-size:9px}
+.dn{display:flex;align-items:center;gap:16px;direction:rtl}
+.lg div{display:flex;align-items:center;gap:8px;font-size:13px;margin:5px 0}.lg i{width:10px;height:10px;border-radius:3px}
+.note{font-size:12px;color:var(--mu);line-height:1.7}
+nav{position:fixed;bottom:calc(10px + env(safe-area-inset-bottom,0px));left:12px;right:12px;z-index:30;display:flex;gap:6px;padding:6px;border-radius:22px;background:rgba(30,41,59,.88);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid var(--bd);max-width:696px;margin:auto}
+nav button{flex:1;background:none;border:0;color:var(--tx);padding:9px 4px;border-radius:16px;font-size:12px;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;position:relative}
+nav button.sel{background:linear-gradient(135deg,var(--pu2),var(--pu))}
+nav em{position:absolute;top:3px;right:22%;min-width:16px;height:16px;border-radius:8px;background:var(--bad);font-size:10px;font-style:normal;display:none;align-items:center;justify-content:center;padding:0 4px}
+.nd{cursor:pointer}.nl{fill:var(--tx);font-size:12px;font-weight:700}.ns{fill:var(--mu);font-size:9px}
+.ln{stroke:#38bdf8;stroke-width:2;stroke-dasharray:5 5;animation:ds 1s linear infinite;opacity:.8}.ln.bad{stroke:var(--bad)}
+@keyframes ds{to{stroke-dashoffset:-10}}
+.ring{fill:none;stroke:var(--bad);stroke-width:3;animation:pl 1.1s infinite}
+.bd{font-style:normal;font-size:11px;padding:2px 10px;border-radius:10px;color:#000;font-weight:700}
+.bd.ok{background:var(--ok)}.bd.bad{background:var(--bad);color:#fff}.bd.unk{background:#64748b;color:#fff}
+.det p{font-size:13px;line-height:1.8;color:var(--mu);margin-top:6px}.det p b{color:var(--tx)}
+.sum{display:flex;align-items:center;gap:8px;font-size:14px;margin-bottom:10px}
+.chip{font-size:11px;padding:2px 10px;border-radius:10px;background:var(--pu);color:#000;font-weight:700}.chip.complaint{background:#f59e0b}
+.mh{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}.mh small,.card small{color:var(--mu)}
+.card p{font-size:14px;line-height:1.8;margin:8px 0}
+.ac{display:flex;gap:8px}.ac button,#lk button{border:1px solid var(--bd);background:var(--glass);color:var(--tx);border-radius:12px;padding:8px 12px;font-size:13px;display:flex;align-items:center;gap:6px;cursor:pointer}
+.ac .pri,#lk button{background:linear-gradient(135deg,var(--pu2),var(--pu));border:0;color:#fff}.ac .dng{color:#fca5a5}
+#lk{max-width:340px;margin:10px auto 0;text-align:center}.btn{width:100%;border:0;background:linear-gradient(135deg,var(--pu2),var(--pu));color:#fff;border-radius:12px;padding:12px;font-size:14px;margin-top:10px;cursor:pointer;display:flex;justify-content:center}#rs input{width:100%;padding:12px;margin-top:10px;border-radius:14px;border:1px solid var(--bd);background:rgba(0,0,0,.25);color:var(--tx);font-size:16px;text-align:center}.rw{display:flex;justify-content:space-between;align-items:center;background:var(--glass);border:1px solid var(--bd);border-radius:14px;padding:14px;margin-bottom:8px}.rw b{font-size:20px;letter-spacing:2px;direction:ltr}#lk input{width:100%;padding:12px;margin:12px 0;border-radius:14px;border:1px solid var(--bd);background:rgba(0,0,0,.25);color:var(--tx);font-size:16px;text-align:center}
+#lk button{width:100%;justify-content:center;padding:12px}#er{color:#fca5a5;font-size:13px;min-height:18px}
+#md{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.55);display:flex;align-items:flex-end;justify-content:center}
+#sh{width:100%;max-width:720px;background:rgba(17,28,40,.97);border:1px solid var(--bd);border-radius:24px 24px 0 0;padding:20px 18px calc(24px + env(safe-area-inset-bottom,0px));backdrop-filter:blur(20px)}
+#sh h3{font-size:16px}.el{fill:var(--mu);font-size:9px}.el.bad{fill:var(--bad)}
+#gate{position:fixed;inset:0;z-index:100;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;background:radial-gradient(circle at 15% 10%,#38bdf855 0,transparent 45%),radial-gradient(circle at 90% 60%,#94a3b844 0,transparent 50%),var(--bg);padding:24px;text-align:center}
+#gate .sp{width:68px;height:68px;border-radius:50%;border:4px solid rgba(255,255,255,.12);border-top-color:var(--pu);animation:sp 1s linear infinite}
+#gate p{font-size:16px}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><defs>
+<symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/></symbol>
+<symbol id="i-net" viewBox="0 0 24 24"><circle cx="12" cy="5" r="2.5"/><circle cx="5" cy="19" r="2.5"/><circle cx="19" cy="19" r="2.5"/><path d="M12 7.5v4M12 11.5l-5.5 5.5M12 11.5l5.5 5.5"/></symbol>
+<symbol id="i-msg" viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.4A8 8 0 1 1 21 12z"/></symbol>
+<symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6M16 4.5a3.5 3.5 0 0 1 0 7M18 14.5c2 .6 3.5 2.3 3.5 5.5"/></symbol>
+<symbol id="i-pulse" viewBox="0 0 24 24"><path d="M3 12h4l2.5-7 5 14L17 12h4"/></symbol>
+<symbol id="i-file" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></symbol>
+<symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M21 16l-5-5-8 8"/></symbol>
+<symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3l10 18H2z"/><path d="M12 10v5M12 18v.5"/></symbol>
+<symbol id="i-server" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="7" rx="2"/><rect x="3" y="13" width="18" height="7" rx="2"/><path d="M7 7.5h.01M7 16.5h.01"/></symbol>
+<symbol id="i-db" viewBox="0 0 24 24"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v12c0 1.7 3.6 3 8 3s8-1.3 8-3V6M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></symbol>
+<symbol id="i-bucket" viewBox="0 0 24 24"><path d="M4 7h16l-1.5 13h-13z"/><ellipse cx="12" cy="7" rx="8" ry="2.5"/></symbol>
+<symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></symbol>
+<symbol id="i-bot" viewBox="0 0 24 24"><rect x="4" y="8" width="16" height="11" rx="3"/><path d="M12 8V4M9 13h.01M15 13h.01M9 16.5h6"/></symbol>
+<symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-2.3 5.7M20 4v7h-7"/></symbol>
+<symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/></symbol>
+<symbol id="i-key" viewBox="0 0 24 24"><circle cx="8" cy="15" r="4"/><path d="M11 12l9-9M16 7l3 3"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></symbol>
+</defs></svg>
+
+<div id="gate"><div class="sp"></div><p>انتظر المسؤول يقبل طلبك</p><p id="gh" style="color:var(--mu);font-size:14px">اضغط على أي مكان في الشاشة لإرسال الطلب</p></div>
+<header><h1>لوحة متابعة الموقع</h1>
+<div id="hs"><span><i class="dot b"></i><em id="h1" style="font-style:normal">0</em></span><span><i class="dot g"></i><em id="h2" style="font-style:normal">0</em></span></div>
+<button id="rf" title="تحديث"><svg class="ic"><use href="#i-refresh"/></svg></button></header>
+
+
+<main id="app">
+<section id="p-st">
+<div class="grid" id="kp"></div>
+<div class="card"><h3><svg class="ic"><use href="#i-users"/></svg>الزوار يومياً (آخر 14 يوماً)</h3><div class="ch" id="c1"></div></div>
+<div class="card"><h3><svg class="ic"><use href="#i-users"/></svg>الزوار شهرياً (آخر 6 أشهر)</h3><div class="ch" id="c2"></div></div>
+<div class="card"><h3><svg class="ic"><use href="#i-pulse"/></svg>ساعات الاستخدام: زيارات لكل ساعة (30 يوماً)</h3><div class="ch" id="c3"></div></div>
+<div class="card"><h3><svg class="ic"><use href="#i-pulse"/></svg>ساعات النشاط: منشورات ورسائل</h3><div class="ch" id="c4"></div></div>
+<div class="card"><h3><svg class="ic"><use href="#i-file"/></svg>رفع المنشورات يومياً (30 يوماً)</h3><div class="ch" id="c5"></div></div>
+<div class="card"><h3><svg class="ic"><use href="#i-file"/></svg>رفع المنشورات شهرياً (12 شهراً)</h3><div class="ch" id="c6"></div></div>
+<div class="card"><h3><svg class="ic"><use href="#i-chart"/></svg>نسبة المنشورات والوصايا والإعلانات</h3><div class="dn" id="d1"></div></div>
+<div class="card"><h3><svg class="ic"><use href="#i-image"/></svg>الوسائط المرفوعة</h3><div class="dn" id="d2"></div></div>
+<div class="card"><h3><svg class="ic"><use href="#i-msg"/></svg>رسائل المستشار: مراجَعة / غير مقروءة</h3><div class="dn" id="d3"></div></div>
+<div class="card"><h3><svg class="ic"><use href="#i-check"/></svg>الشكاوى: مراجَعة / غير مقروءة</h3><div class="dn" id="d4"></div></div>
+<p class="note card">أرقام الزوار والساعات تُقرأ مباشرة من قاعدة D1، وتبدأ من لحظة نشر النسخة الجديدة من الـ Worker (الأيام السابقة لم تُسجَّل). المنشورات والرسائل من KV.</p>
+</section>
+
+<section id="p-nt" hidden>
+<div class="card"><div class="sum" id="sm"></div><div id="dg"></div></div>
+</section>
+
+<section id="p-ms" hidden>
+<div id="lk" class="card">
+<h3 style="justify-content:center">الرسائل خاصة</h3>
+<p class="note">أدخل رمز المدير أو المستشار لقراءة الرسائل وإدارتها</p>
+<input id="cd" type="password" inputmode="numeric" autocomplete="off" placeholder="الرمز">
+<div id="er"></div><button id="go">دخول</button></div>
+<div id="ml"></div></section>
+
+<section id="p-rc" hidden>
+<div class="card"><h3><svg class="ic"><use href="#i-key"/></svg>استرداد رموز التفعيل</h3>
+<p class="note">للحالات الطارئة فقط: أدخل مفتاح الاسترداد لعرض رموز المدير والمستشار والأدمين الحالية.</p>
+<div id="rs"><input id="rc" type="password" autocomplete="off" placeholder="مفتاح الاسترداد"><button id="rv" class="btn">عرض الرموز</button></div>
+<div id="rm" class="note" style="color:#fca5a5;margin-top:8px"></div></div>
+<div id="rr"></div>
+</section>
+</main>
+
+<nav id="nv">
+<button data-t="st" class="sel"><svg class="ic"><use href="#i-chart"/></svg>الإحصائيات</button>
+<button data-t="nt"><svg class="ic"><use href="#i-net"/></svg>الاتصال<em id="b1"></em></button>
+<button data-t="ms"><svg class="ic"><use href="#i-msg"/></svg>الرسائل<em id="b2"></em></button>
+<button data-t="rc"><svg class="ic"><use href="#i-key"/></svg>استرداد</button>
+</nav>
+
+<div id="md" hidden><div id="sh" class="det"></div></div>
+
+<script>
+const API='https://school-site-api.nqatt370.workers.dev';
+const SITE=location.protocol.startsWith('http')?location.origin+'/':'';
+const $=id=>document.getElementById(id);
+const MN=['جانفي','فيفري','مارس','أفريل','ماي','جوان','جويلية','أوت','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>'&#'+c.charCodeAt(0)+';');
+let DID='';try{DID=localStorage.getItem('dash_did')||''}catch{}
+if(!/^[a-f0-9]{32}$/.test(DID)){DID=Array.from(crypto.getRandomValues(new Uint8Array(16)),b=>b.toString(16).padStart(2,'0')).join('');try{localStorage.setItem('dash_did',DID)}catch{}}
+let ALLOW=false,asked=false;
+const ic=n=>`<svg class="ic"><use href="#i-${n}"/></svg>`;
+let tok=localStorage.getItem('dash_token')||'',posts=[],msgs=[],NS={},last={total:0,active:0},sel='worker',busy=false,ST={days:[],months:[],hours:[]};
+async function api(p,o={}){
+  const h={'x-did':DID};if(tok)h.authorization='Bearer '+tok;let body;
+  if(o.json!==undefined){h['content-type']='application/json';body=JSON.stringify(o.json)}
+  const r=await fetch(API+p,{method:o.method||'GET',headers:h,body});
+  const d=await r.json().catch(()=>({}));
+  if(r.status===401&&tok&&p!=='/api/login')logout();
+  if(!r.ok)throw Object.assign(new Error(d.error||'err'),{s:r.status});
+  return d;
+}
+function logout(){tok='';localStorage.removeItem('dash_token');msgs=[];$('lk').hidden=false;renderMsgs()}
+
+/* ---------- charts ---------- */
+function chart(id,L,V,col,bar){
+  const W=340,H=150,l=26,r=6,t=10,b=22,n=V.length,mx=Math.max(1,...V),bw=(W-l-r)/n;
+  const x=i=>bar?l+bw*(i+.5):l+(n<2?0:i*(W-l-r)/(n-1)),y=v=>t+(H-t-b)*(1-v/mx);let s='';
+  for(let k=0;k<=3;k++){const v=mx*k/3;s+=`<line x1="${l}" x2="${W-r}" y1="${y(v)}" y2="${y(v)}"/><text x="${l-4}" y="${y(v)+3}" text-anchor="end">${Math.round(v*10)/10}</text>`}
+  const st=Math.ceil(n/7);L.forEach((a,i)=>{if(i%st==0)s+=`<text x="${x(i)}" y="${H-7}" text-anchor="middle">${a}</text>`});
+  if(bar)V.forEach((v,i)=>s+=`<rect x="${x(i)-bw*.32}" y="${y(v)}" width="${bw*.64}" height="${H-b-y(v)}" rx="2" fill="${col}" opacity=".85"/>`);
+  else{const d=V.map((v,i)=>(i?'L':'M')+x(i).toFixed(1)+' '+y(v).toFixed(1)).join('');
+    s+=`<defs><linearGradient id="g${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${col}" stop-opacity=".4"/><stop offset="1" stop-color="${col}" stop-opacity="0"/></linearGradient></defs><path d="${d}L${x(n-1)} ${H-b}L${x(0)} ${H-b}Z" fill="url(#g${id})"/><path d="${d}" fill="none" stroke="${col}" stroke-width="2.2" stroke-linejoin="round"/>`+(n<=15?V.map((v,i)=>`<circle cx="${x(i)}" cy="${y(v)}" r="2.6" fill="${col}"/>`).join(''):'')}
+  $(id).innerHTML=`<svg viewBox="0 0 ${W} ${H}">${s}</svg>`;
+}
+function donut(id,parts){
+  const T=parts.reduce((a,p)=>a+p.v,0),R=42,C=2*Math.PI*R;let off=0,s='';
+  parts.forEach(p=>{const len=T?C*p.v/T:0;s+=`<circle r="${R}" cx="60" cy="60" fill="none" stroke="${p.c}" stroke-width="14" stroke-dasharray="${len} ${C-len}" stroke-dashoffset="${-off}" transform="rotate(-90 60 60)"/>`;off+=len});
+  $(id).innerHTML=`<svg viewBox="0 0 120 120" style="width:110px;flex:none"><circle r="${R}" cx="60" cy="60" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="14"/>${s}<text x="60" y="66" text-anchor="middle" style="font-size:20px;font-weight:700;fill:#eef6fb">${T}</text></svg><div class="lg">${parts.map(p=>`<div><i style="background:${p.c}"></i>${p.n} <b>${p.v}</b> <small>${T?Math.round(p.v*100/T):0}%</small></div>`).join('')}</div>`;
+}
+const days=n=>Array.from({length:n},(_,i)=>{const d=new Date();d.setHours(0,0,0,0);d.setDate(d.getDate()-(n-1-i));return d});
+const months=n=>Array.from({length:n},(_,i)=>{const d=new Date();d.setDate(1);d.setHours(0,0,0,0);d.setMonth(d.getMonth()-(n-1-i));return d});
+const dk=d=>d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate(),mk=d=>d.getFullYear()+'-'+(d.getMonth()+1);
+const countBy=(a,f)=>{const o={};a.forEach(x=>{const k=f(new Date(x.ts));o[k]=(o[k]||0)+1});return o};
+const pad=n=>String(n).padStart(2,'0'),dkey=d=>d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate()),mkey=d=>d.getFullYear()+'-'+pad(d.getMonth()+1);
+const sv=(a,k,v)=>{const o={};(a||[]).forEach(x=>o[x[k]]=x[v]);return o};
+
+/* ---------- stats ---------- */
+function renderStats(){
+  const med=posts.flatMap(p=>p.media||[]),im=med.filter(m=>m.mt!=='video').length,vd=med.length-im;
+  const pend=msgs.filter(m=>!m.done).length,ty=t=>posts.filter(p=>p.type===t).length;
+  $('h1').textContent=last.total;$('h2').textContent=last.active;
+  $('kp').innerHTML=[['users',last.total,'إجمالي الزوار'],['pulse',last.active,'النشطاء الآن'],['file',posts.length,'المنشورات'],['image',med.length,'الوسائط المرفوعة'],['msg',msgs.length,'الرسائل والشكاوى'],['alert',pend,'بانتظار المعالجة']].map(k=>`<div class="kp">${ic(k[0])}<b>${k[1]}</b><span>${k[2]}</span></div>`).join('');
+  const d14=days(14),m6=months(6),d30=days(30),m12=months(12),pd=countBy(posts,dk),pm=countBy(posts,mk);
+  const sd=sv(ST.days,'d','u'),sm=sv(ST.months,'m','u');
+  chart('c1',d14.map(d=>d.getDate()),d14.map(d=>sd[dkey(d)]||0),'#38bdf8');
+  chart('c2',m6.map(d=>MN[d.getMonth()]),m6.map(d=>sm[mkey(d)]||0),'#22c55e',1);
+  chart('c3',[...Array(24).keys()],ST.hours&&ST.hours.length?ST.hours:Array(24).fill(0),'#a78bfa');
+  const hh=Array(24).fill(0);[...posts,...msgs].forEach(x=>hh[new Date(x.ts).getHours()]++);
+  chart('c4',[...Array(24).keys()],hh,'#f59e0b',1);
+  chart('c5',d30.map(d=>d.getDate()),d30.map(d=>pd[dk(d)]||0),'#38bdf8',1);
+  chart('c6',m12.map(d=>MN[d.getMonth()]),m12.map(d=>pm[mk(d)]||0),'#22c55e');
+  donut('d1',[{n:'منشورات',v:ty('post'),c:'#38bdf8'},{n:'وصايا',v:ty('rec'),c:'#22c55e'},{n:'إعلانات',v:ty('ann'),c:'#f59e0b'}]);
+  donut('d2',[{n:'صور',v:im,c:'#38bdf8'},{n:'فيديوهات',v:vd,c:'#a78bfa'}]);
+  const cs=msgs.filter(m=>m.kind!=='complaint'),cp=msgs.filter(m=>m.kind==='complaint'),dn=a=>a.filter(m=>m.done).length;
+  donut('d3',[{n:'تمت مراجعتها',v:dn(cs),c:'#22c55e'},{n:'غير مقروءة',v:cs.length-dn(cs),c:'#ef4444'}]);
+  donut('d4',[{n:'تمت مراجعتها',v:dn(cp),c:'#22c55e'},{n:'غير مقروءة',v:cp.length-dn(cp),c:'#ef4444'}]);
+  const b=$('b2');b.textContent=pend;b.style.display=pend?'flex':'none';
+}
+
+/* ---------- connection map ---------- */
+const ND={
+site:{x:180,y:44,n:'الموقع',s:'Vercel',i:'globe',d:'واجهة الموقع التي يراها الزوار، مستضافة على Vercel وتتصل بالـ Worker لعرض المنشورات وإرسال الرسائل.'},
+worker:{x:180,y:148,n:'Worker',s:'واجهة API',i:'server',d:'الخادم الوسيط (Cloudflare Worker): يستقبل طلبات الموقع ولوحة المتابعة وينفّذها على قواعد البيانات.'},
+r2:{x:62,y:262,n:'R2',s:'صور وفيديو',i:'bucket',d:'مخزن R2: يحفظ الصور والفيديوهات المرفوعة مع المنشورات.'},
+kv:{x:180,y:262,n:'KV',s:'منشورات ورسائل',i:'db',d:'قاعدة KV: تخزّن المنشورات والرسائل والشكاوى ورموز التفعيل وجلسات الدخول.'},
+d1:{x:298,y:262,n:'D1',s:'الإحصاءات',i:'chart',d:'قاعدة D1 (SQL): تسجّل الزوار والنشطاء وساعات الاستخدام لمنحنيات الإحصاءات.'},
+cs:{x:100,y:380,n:'المستشار',s:'الرسائل',i:'msg',d:'صندوق المستشار: تصله رسائل الطلاب وأولياء الأمور (الاستشارات) ويراجعها من تبويب الرسائل.'},
+mg:{x:260,y:380,n:'المدير',s:'الشكاوى',i:'key',d:'صندوق المدير: تصله الشكاوى، ويطّلع على كل الرسائل والشكاوى ويديرها.'},
+user:{x:180,y:494,n:'المستخدم',s:'الزوار',i:'users',d:'الزائر أو الطالب أو ولي الأمر الذي يتصفح الموقع ويرسل الرسائل والشكاوى.'}};
+const ED=[['site','worker'],['worker','kv'],['worker','r2'],['worker','d1'],['cs','kv'],['mg','kv'],['user','cs','رسائل'],['user','mg','شكاوى']];
+const OK=ms=>({s:'ok',ms}),BAD=(why,fix,ms)=>({s:'bad',why,fix,ms}),UNK=why=>({s:'unk',why});
+async function probe(p,o){
+  const t=performance.now();
+  try{const r=await fetch(API+p,{...o,signal:AbortSignal.timeout(8000)}),txt=await r.text();let j;try{j=JSON.parse(txt)}catch{}
+    return{ok:r.ok,s:r.status,j,txt,ms:Math.round(performance.now()-t)}}
+  catch(e){return{err:e.name==='TimeoutError'?'انتهت المهلة (8 ثوانٍ) دون استجابة':'تعذّر الوصول إلى الخادم (انقطاع إنترنت أو رابط API غير صحيح)',ms:Math.round(performance.now()-t)}}
+}
+async function check(){
+  const w=await probe('/'),N={};
+  if(w.err)N.worker=BAD(w.err,'تأكد من اتصال الإنترنت ومن أن الـ Worker منشور وأن رابط API في هذه الصفحة صحيح.',w.ms);
+  else if(w.j&&w.j.ok)N.worker=OK(w.ms);
+  else N.worker=BAD('استجابة غير متوقعة (HTTP '+w.s+')','كود worker.js غير منشور أو معطوب. افتح Edit code ثم Deploy.',w.ms);
+  if(N.worker.s==='bad')['kv','r2','d1','cs','mg'].forEach(k=>N[k]=UNK('تعذّر الفحص لأن الـ Worker لا يستجيب.'));
+  else{
+    const [p,m,g]=await Promise.all([probe('/api/posts'),probe('/api/media/_health_'),probe('/api/stats',{headers:{'x-did':DID}})]);
+    N.kv=p.ok&&Array.isArray(p.j)?OK(p.ms):BAD('فشلت قراءة KV (HTTP '+(p.s||'؟')+')','تحقق من ربط KV باسم DB (حروف كبيرة)، ومن عدم تجاوز الحد المجاني اليومي للقراءة والكتابة.',p.ms);
+    N.r2=m.s===404&&m.txt==='not found'?OK(m.ms):BAD(m.s===500?'خطأ داخلي: ربط R2 باسم MEDIA مفقود أو خاطئ.':'استجابة غير متوقعة (HTTP '+(m.s||'؟')+')','أضف Binding من نوع R2 باسم MEDIA يشير إلى school-media ثم Deploy.',m.ms);
+    if(g.ok&&g.j&&typeof g.j.total==='number'){N.d1=OK(g.ms);ST=g.j;last={total:g.j.total,active:g.j.active}}
+    else N.d1=BAD(g.s===503?'ربط STATS غير موجود.':g.s===404?'الـ Worker لا يحتوي نقطة /api/stats (نسخة قديمة).':'فشل التعامل مع D1 (HTTP '+(g.s||'؟')+')','أضف Binding من نوع D1 باسم STATS يشير إلى school-stats، وانشر آخر نسخة من worker.js ثم Deploy.',g.ms);
+    const hd={'content-type':'application/json'};
+    const [sc,sm,rd]=await Promise.all([probe('/api/messages',{method:'POST',headers:hd,body:JSON.stringify({kind:'counselor'})}),probe('/api/messages',{method:'POST',headers:hd,body:JSON.stringify({kind:'complaint'})}),probe('/api/messages',{headers:tok?{authorization:'Bearer '+tok}:{}})]);
+    const sendOk=r=>r.s===400&&r.j&&r.j.error==='req',rdOk=tok?(rd.ok&&Array.isArray(rd.j)):rd.s===401;
+    const inbox=(snd,lb)=>{
+      if(!sendOk(snd))return BAD('مسار إرسال '+lb+' لا يعمل كما ينبغي (HTTP '+(snd.s||'؟')+')','انشر آخر نسخة من worker.js وتحقق من ربط KV باسم DB.',snd.ms);
+      if(N.kv.s==='bad')return BAD('تُخزَّن '+lb+' في KV وهو معطّل، فلن تصل إلى الصندوق.','أصلح KV أولاً (اضغط عليه في المخطط).',snd.ms);
+      if(!rdOk)return BAD('تعذّرت قراءة الصندوق (HTTP '+(rd.s||'؟')+')','سجّل الدخول من تبويب الرسائل، أو تحقق من ربط KV.',rd.ms);
+      return{s:'ok',ms:snd.ms,note:tok?'الإرسال والقراءة يعملان، والصندوق يصل لصاحبه.':'مسار الإرسال يعمل والصندوق محمي بالرمز. سجّل الدخول من تبويب الرسائل لفحص القراءة الفعلية.'};
+    };
+    N.cs=inbox(sc,'الرسائل');N.mg=inbox(sm,'الشكاوى');
+  }
+  if(SITE){try{const t=performance.now();await fetch(SITE,{mode:'no-cors',signal:AbortSignal.timeout(8000)});N.site=OK(Math.round(performance.now()-t))}catch{N.site=BAD('تعذّر الوصول إلى صفحة الموقع.','تحقق من نشر الموقع على Vercel ومن حالة النشر في لوحة Vercel.')}}
+  else N.site=UNK('افتح هذه الصفحة من رابط الموقع نفسه (مثلاً /dashboard.html) ليتم فحصه.');
+  N.user=N.worker.s==='bad'?BAD('لا يستطيع الزوار إرسال الرسائل لأن الـ Worker لا يستجيب.','أصلح الـ Worker أولاً.',N.worker.ms):{s:'ok',ms:N.worker.ms};
+  NS=N;
+}
+function renderNet(){
+  let s='';
+  ED.forEach(([a,b,t])=>{const A=ND[a],B=ND[b],bad=NS[a]?.s==='bad'||NS[b]?.s==='bad';
+    s+=`<line class="ln${bad?' bad':''}" x1="${A.x}" y1="${A.y}" x2="${B.x}" y2="${B.y}"/>`;
+    if(t)s+=`<text class="el${bad?' bad':''}" x="${(A.x+B.x)/2+(a==='user'&&b==='cs'?-14:14)}" y="${(A.y+B.y)/2}" text-anchor="middle">${t}</text>`});
+  for(const k in ND){const o=ND[k],st=NS[k]?.s||'unk',c=st==='ok'?'#38bdf8':st==='bad'?'#ef4444':'#64748b';
+    s+=`<g class="nd" data-k="${k}" transform="translate(${o.x} ${o.y})">${st==='bad'?'<circle r="40" class="ring"/>':''}<circle r="30" fill="#111c28" stroke="${c}" stroke-width="2.4"/><svg x="-12" y="-12" width="24" height="24" fill="none" stroke="${c}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><use href="#i-${o.i}"/></svg><text y="50" text-anchor="middle" class="nl">${o.n}</text><text y="62" text-anchor="middle" class="ns">${o.s}</text></g>`}
+  $('dg').innerHTML=`<svg viewBox="0 0 360 570" style="width:100%">${s}</svg>`;
+  const bad=Object.keys(NS).filter(k=>NS[k].s==='bad'),b=$('b1');
+  $('sm').innerHTML=bad.length?`<span style="color:var(--bad)">${ic('alert')}</span>${bad.length} عناصر في خلل. اضغط على الدائرة لمعرفة السبب`:`<span style="color:var(--ok)">${ic('check')}</span>كل العناصر نشطة. اضغط على أي دائرة لتعريفها`;
+  b.textContent=bad.length;b.style.display=bad.length?'flex':'none';
+}
+function showNode(k){
+  const o=ND[k],n=NS[k]||UNK('جارٍ الفحص...'),lb={ok:'نشط',bad:'في خلل',unk:'غير معروف'}[n.s];
+  const pend=c=>msgs.filter(m=>c===(m.kind!=='complaint')&&!m.done).length;
+  const x=k==='cs'?`<p><b>رسائل غير مقروءة:</b> ${pend(true)}</p>`:k==='mg'?`<p><b>شكاوى غير مقروءة:</b> ${pend(false)}</p>`:k==='user'?`<p><b>النشطاء الآن:</b> ${last.active} · <b>إجمالي الزوار:</b> ${last.total}</p>`:'';
+  $('sh').innerHTML=`<h3>${ic(o.i)}${o.n} — ${o.s} <em class="bd ${n.s}">${lb}</em></h3><p><b>التعريف:</b> ${o.d}</p>${x}`+(n.s==='ok'?`<p><b>الحالة:</b> ${n.note||'يعمل بشكل سليم.'}</p>`+(n.ms!=null?`<p><b>زمن الاستجابة:</b> ${n.ms} م.ث</p>`:''):`<p><b>السبب:</b> ${n.why}</p>`+(n.fix?`<p><b>الحل المقترح:</b> ${n.fix}</p>`:''))+'<button id="xc" class="btn">إغلاق</button>';
+  $('md').hidden=false;
+}
+
+/* ---------- messages ---------- */
+function renderMsgs(){
+  if(!tok){$('ml').innerHTML='';return}
+  $('ml').innerHTML=msgs.length?msgs.map(m=>`<div class="card"><div class="mh"><span class="chip ${esc(m.kind)}">${m.kind==='complaint'?'شكوى':'استشارة'}</span><small>${new Date(m.ts).toLocaleString('ar-DZ')}</small></div><b>${esc(m.name)} ${esc(m.sname)}</b> <small>${esc(m.cls)} · ${esc(m.phone)}</small><p>${esc(m.text)}</p><div class="ac"><button data-a="done" data-id="${esc(m.id)}" data-v="${m.done?0:1}" class="${m.done?'':'pri'}">${ic('check')}${m.done?'إلغاء المعالجة':'تمت المعالجة'}</button><button data-a="del" data-id="${esc(m.id)}" class="dng">${ic('trash')}حذف</button></div></div>`).join(''):'<p class="note card">لا توجد رسائل.</p>';
+}
+
+/* ---------- loop ---------- */
+async function tick(){
+  if(busy||!ALLOW)return;busy=true;$('rf').classList.add('spin');
+  try{posts=await api('/api/posts').catch(()=>posts);await check();
+    if(tok)msgs=await api('/api/messages').catch(()=>msgs);
+    else msgs=(ST.ms||[]).map(x=>({ts:x.ts,kind:x.k,done:x.d}))}catch{}
+  renderStats();renderNet();renderMsgs();busy=false;$('rf').classList.remove('spin');
+}
+function enter(){$('lk').hidden=true;tick()}
+$('go').onclick=async()=>{
+  $('er').textContent='';
+  try{const r=await api('/api/login',{method:'POST',json:{code:$('cd').value.trim()}});
+    if(r.role!=='modire'&&r.role!=='mostachar'){$('er').textContent='هذه اللوحة للمدير والمستشار فقط';return}
+    tok=r.token;localStorage.setItem('dash_token',tok);$('cd').value='';enter()}
+  catch{$('er').textContent='الرمز غير صحيح'}
+};
+$('nv').onclick=e=>{const b=e.target.closest('button');if(!b)return;
+  [...$('nv').children].forEach(x=>x.classList.toggle('sel',x===b));
+  ['st','nt','ms','rc'].forEach(t=>$('p-'+t).hidden=t!==b.dataset.t);scrollTo(0,0)};
+$('dg').onclick=e=>{const g=e.target.closest('.nd');if(g)showNode(g.dataset.k)};
+$('md').onclick=e=>{if(e.target.id==='md'||e.target.closest('#xc'))$('md').hidden=true};
+$('rf').onclick=tick;
+$('ml').onclick=async e=>{const b=e.target.closest('button');if(!b)return;const id=encodeURIComponent(b.dataset.id);
+  try{if(b.dataset.a==='done')await api('/api/messages/'+id+'/done',{method:'POST',json:{v:b.dataset.v==='1'}});
+    else if(confirm('حذف هذه الرسالة نهائياً؟'))await api('/api/messages/'+id,{method:'DELETE'});
+    msgs=await api('/api/messages');renderMsgs();renderStats()}catch{}};
+setInterval(()=>{if(!document.hidden)tick()},60000);
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)tick()});
+let rT;
+$('rv').onclick=async()=>{
+  $('rm').textContent='';
+  try{const r=await api('/api/recover',{method:'POST',json:{key:$('rc').value}});
+    $('rr').innerHTML=[['المدير',r.modire],['المستشار',r.mostachar],['الأدمين',r.admin]].map(x=>`<div class="rw"><span>${x[0]}</span><b>${esc(x[1])}</b></div>`).join('');
+    $('rc').value='';$('rm').style.color='var(--mu)';$('rm').textContent='تختفي الرموز بعد دقيقة.';clearTimeout(rT);rT=setTimeout(()=>{$('rr').innerHTML='';$('rm').textContent=''},60000)}
+  catch(e){$('rm').style.color='#fca5a5';$('rm').textContent=e.s===429?'تم القفل 15 دقيقة بسبب محاولات خاطئة':'مفتاح الاسترداد غير صحيح'}
+};
+function boot(){ALLOW=true;$('lk').hidden=!!tok;tick();
+  if(tok)api('/api/me').then(r=>{r.role==='modire'||r.role==='mostachar'?enter():logout()}).catch(()=>{})}
+async function gate(){
+  try{const r=await api('/api/dash/status?did='+DID);if(r.status==='ok'){$('gate').hidden=true;boot();return}}catch{}
+  setTimeout(gate,3000);
+}
+async function send(){
+  if(asked)return;asked=true;
+  try{await api('/api/dash/enter',{method:'POST',json:{did:DID}});$('gh').textContent='تم إرسال الطلب، بانتظار قبول المسؤول'}
+  catch{asked=false;return}
+}
+$('gate').addEventListener('click',send);
+gate();
+</script>
+</body>
+</html>
